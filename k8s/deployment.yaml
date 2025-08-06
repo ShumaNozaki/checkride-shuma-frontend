@@ -53,7 +53,7 @@ spec:
         terminationMessagePolicy: File
         imagePullPolicy: IfNotPresent
       imagePullSecrets:
-      - name: sh-m-04-secret 
+      - name: sh-m-04-pull-secret
       securityContext: {}
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 600
