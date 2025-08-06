@@ -1,13 +1,3 @@
-# FROM node:20.15.1 as build
-FROM quay.io/jeffdean/node-alpine as build
-WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build
-
-FROM quay.io/jeffdean/nginx-unprivileged
-COPY --from=build /app/build /usr/share/nginx/html
-COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
 # # 公式 Node.js イメージをベースに
 # FROM node:22
 
@@ -32,6 +22,28 @@ COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
 
 # # アプリを起動
 # CMD ["npm", "start"]
+
+# Node.js 22 の公式イメージをベースに使用
+FROM node:22
+
+# 作業ディレクトリを設定
+WORKDIR /usr/src/app
+
+# 依存関係定義ファイルを先にコピー（キャッシュのため）
+COPY package*.json ./
+
+# npm ci を使って依存関係をインストール（package-lock.jsonがある前提）
+RUN npm ci
+
+# アプリケーションのソースコードをコピー
+COPY . .
+
+# ポートを開放（アプリに応じて変更、Expressなら通常3000）
+EXPOSE 3000
+
+# アプリケーションを起動（package.json の "start" に依存）
+CMD ["npm", "start"]
+
 
 # # ビルド用ステージ
 # FROM node:22 AS builder
