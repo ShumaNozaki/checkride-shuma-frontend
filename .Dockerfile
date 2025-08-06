@@ -2,7 +2,7 @@
 FROM node:22
 
 # 作業ディレクトリを設定
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # package.json と package-lock.json をコピー
 COPY package*.json ./
@@ -14,7 +14,8 @@ RUN npm install
 COPY . .
 
 # ビルド（省略したい場合はこれを削除）
-RUN npm run build
+# RUN npm run build
+RUN npm ci
 
 # ポート番号（任意のポート番号）
 EXPOSE 3000
