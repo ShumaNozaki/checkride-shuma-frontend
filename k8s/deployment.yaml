@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: checkride-shuma-f
+  name: checkride-shuma-frontend
 spec:
   replicas: 1
   selector:
