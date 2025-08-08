@@ -1,28 +1,3 @@
-# # 公式 Node.js イメージをベースに
-# FROM node:22
-
-# # 作業ディレクトリを設定
-# WORKDIR /usr/src/app
-
-# # package.json と package-lock.json をコピー
-# COPY package*.json ./
-
-# # 依存関係をインストール
-# RUN npm install
-
-# # アプリケーションのソースコードをコピー
-# COPY . .
-
-# # ビルド（省略したい場合はこれを削除）
-# # RUN npm run build
-# RUN npm ci
-
-# # ポート番号（任意のポート番号）
-# EXPOSE 3000
-
-# # アプリを起動
-# CMD ["npm", "start"]
-
 # Node.js 22 の公式イメージをベースに使用
 FROM node:22
 
@@ -32,8 +7,11 @@ WORKDIR /usr/src/app
 # 依存関係定義ファイルを先にコピー（キャッシュのため）
 COPY package*.json ./
 
+# # ビルド（省略したい場合はこれを削除）
+# # RUN npm run build
 # npm ci を使って依存関係をインストール（package-lock.jsonがある前提）
 RUN npm ci
+
 
 # アプリケーションのソースコードをコピー
 COPY . .
