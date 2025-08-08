@@ -10,14 +10,14 @@ COPY package*.json ./
 # # ビルド（省略したい場合はこれを削除）
 # # RUN npm run build
 # npm ci を使って依存関係をインストール（package-lock.jsonがある前提）
-RUN npm ci
+RUN npm install
 
 
 # アプリケーションのソースコードをコピー
 COPY . .
 
 # ポートを開放（アプリに応じて変更、Expressなら通常3000）
-EXPOSE 3000
+EXPOSE 5173
 
 # アプリケーションを起動（package.json の "start" に依存）
 CMD ["npm", "start"]
