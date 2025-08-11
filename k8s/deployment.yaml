@@ -24,7 +24,7 @@ spec:
         ports:
         - name: http
           protocol: TCP
-          containerPort: 3000
+          containerPort: 80
         env:
         - name: INGRESS_HOST
         - name: PROTOCOLS
