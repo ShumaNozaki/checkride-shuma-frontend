@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # --- 本番ステージ ---
-FROM nginx:alpine
+FROM docker.io/library/nginx:alpine
 
 # ビルド成果物をコピー
 COPY --from=build /app/dist /usr/share/nginx/html
