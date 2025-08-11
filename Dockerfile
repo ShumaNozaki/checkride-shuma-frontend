@@ -5,6 +5,7 @@ FROM node:22
 WORKDIR /usr/src/app
 
 # 依存関係定義ファイルを先にコピー（キャッシュのため）
+ENV npm_config_cache=/tmp/.npm
 COPY package*.json ./
 
 # # ビルド（省略したい場合はこれを削除）
