@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import './App.css'
 
 function App() {
-  const [audioFile, setAudioFile] = useState(null)     // 音声ファイル（録音 or 選択）
+  const [audioFile, setAudioFile] = useState(null)     // 音声ファイル（録音 or 選択）を入力
   const [keyword, setKeyword] = useState('')           // 検索キーワード
   const [transcript, setTranscript] = useState('')     // 文字起こし結果
   const [matchSnippet, setMatchSnippet] = useState('') // キーワード前後のテキスト
