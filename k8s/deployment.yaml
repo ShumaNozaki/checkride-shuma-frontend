@@ -20,7 +20,7 @@ spec:
       schedulerName: default-scheduler
       containers:
       - name: checkride-shuma-frontend
-        image: checkride-shuma-f
+        image: checkride-shuma-f:latest
         ports:
         - name: http
           protocol: TCP
