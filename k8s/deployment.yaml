@@ -21,8 +21,6 @@ spec:
       containers:
       - name: checkride-shuma-frontend
         image: image-registry.openshift-image-registry.svc:5000/checkride-shuma-f/checkride-shuma-f:latest
-
-
         ports:
         - name: http
           protocol: TCP
