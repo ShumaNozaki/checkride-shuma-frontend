@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: checkride-shuma-frontend
+  namespace: checkride-shuma-f    # 追加
 spec:
   replicas: 1
   selector:
@@ -14,13 +15,14 @@ spec:
         app.kubernetes.io/instance: app-instance
         app.kubernetes.io/name: app
     spec:
+      serviceAccountName: default       # 追加
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler
       containers:
       - name: checkride-shuma-frontend
-        image: image-registry.openshift-image-registry.svc:5000/checkride-shuma-f/checkride-shuma-f:latest
+        image: checkride-shuma-f:latest
         ports:
         - name: http
           protocol: TCP
