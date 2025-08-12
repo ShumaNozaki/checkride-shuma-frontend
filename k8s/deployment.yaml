@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/instance: app-instance
         app.kubernetes.io/name: app
     spec:
-      serviceAccountName: default       # 追加
+      serviceAccountName: build-bot       # 追加
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
