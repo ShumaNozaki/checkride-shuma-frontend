@@ -20,7 +20,7 @@ spec:
       schedulerName: default-scheduler
       containers:
       - name: checkride-shuma-frontend
-        image: quay.io/sh_m_04/checkride-shuma-f
+        image: checkride-shuma-f
         ports:
         - name: http
           protocol: TCP
