@@ -2,22 +2,31 @@
 FROM node:22 AS build
 
 WORKDIR /app
+
+# package.json と lockファイルを先にコピー（キャッシュ効率化）
 COPY package*.json ./
-RUN npm ci
+
+# lockファイルがない場合は install
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+# 残りのソースコードをコピー
 COPY . .
+
+# Vite のビルド
 RUN npm run build
 
 # --- 本番ステージ ---
-FROM docker.io/library/nginx:alpine
+FROM nginx:alpine
 
 # ビルド成果物をコピー
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Nginx 設定（SPA対応）
+# SPA対応の nginx 設定
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
+
 
 
 # # Node.js 22 の公式イメージをベースに使用
