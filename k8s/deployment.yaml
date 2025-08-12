@@ -20,7 +20,8 @@ spec:
       schedulerName: default-scheduler
       containers:
       - name: checkride-shuma-frontend
-        image: default-route-openshift-image-registry.apps.687717108a3a4d1edcbc3cee.ap1.techzone.ibm.com/checkride-shuma-f/checkride-shuma-f:latest
+        image: image-registry.openshift-image-registry.svc:5000/checkride-shuma-f/checkride-shuma-f:latest
+
 
         ports:
         - name: http
