@@ -4,12 +4,12 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: Validate=false
     openshift.io/host.generated: "true"
-  name: checkride-shuma-frontend
+  name: checkride-shuma-f
 spec:
   tls:
     termination: edge
   to:
     kind: Service
-    name: checkride-shuma-frontend
+    name: checkride-shuma-f
     weight: 100
   wildcardPolicy: None

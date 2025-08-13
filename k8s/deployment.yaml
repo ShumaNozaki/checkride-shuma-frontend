@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: checkride-shuma-frontend
+  name: checkride-shuma-f
   namespace: checkride-shuma-f    # 追加
 spec:
   replicas: 1
@@ -21,7 +21,7 @@ spec:
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler
       containers:
-      - name: checkride-shuma-frontend
+      - name: checkride-shuma-f
         image: checkride-shuma-f
         ports:
         - name: http
