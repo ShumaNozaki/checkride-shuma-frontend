@@ -1,120 +1,415 @@
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #0E62FE;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  font-size: 2rem;
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  z-index: 1000;
-}
-
+/* /* src/App.css
 .app-container {
-  padding-top: 80px;  /* ヘッダーの高さ+余裕 */
-  width: 95vw;
-  margin: 40px auto;
-  font-family: "Segoe UI", Roboto, sans-serif;
-  padding-left: 40px;
-  padding-right: 40px;
-  padding-bottom: 40px;
-  background: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  max-width: 880px;
+  padding: 24px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
 }
-/* .app-container {
-  width: 95vw;
-  /* max-width: 900px; */
-  /* margin: 60px auto; */
-  /* font-family: "Segoe UI", Roboto, sans-serif;
-  padding: 40px;
-  background: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-} */ 
 
-/* ヘッダー */
 header {
-  display: flex;
-  width: 100%;
-  /* height: 60px; */
-  background-color: #0E62FE;
-  color: white;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  border-radius: 10px;
-  margin-bottom: 40px;
-}
-
-/* 入力グループ */
-.input-group {
+  font-size: 20px;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 
-.input-group label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
+.input-group {
+  margin-bottom: 16px;
+  display: grid;
+  gap: 8px;
 }
 
-/* 入力フィールド */
-input[type="file"],
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
-}
-
-/* ボタン */
-button {
-  font-size: 1.8rem;
-  font-weight: bold;
-  padding: 14px 30px;
-  margin-top: 20px;
-  cursor: pointer;
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
+  cursor: pointer;
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn--blue { background: #2563eb; color: #fff; }
+.btn--primary { background: #10b981; color: #fff; }
+
+.player { margin-top: 8px; }
+.hint { font-size: 12px; color: #666; margin-top: 4px; }
+
+.text-block {
+  white-space: pre-wrap;
+  line-height: 1.9;
+  font-size: 16px;
+}
+
+/* ハイライト色（黄色マーカー） */
+/* mark {
+  background: #fff59d;
+  padding: 0 .15em;
+  border-radius: 2px;
+} */ 
+
+/* src/App.css */
+/* src/App.css */
+/* src/App.css */
+
+/* src/App.css */
+
+/* src/App.css */
+/* .app-container {
+  max-width: 880px;
+  padding: 24px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+/* タイトル */
+
+/* header {
+  font-size: 32px; /* 目立つ大きさ */
+  /* font-weight: 800;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #10b981;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.15);
+} */ 
+/* header {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: #1e293b;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 10px;
+} */
+
+/* 入力グループ横並び（PC中心） */
+/* .input-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center; */
+/* } */
+
+/* ボタン共通 */
+/* .btn { */
+  /* padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+} */
+/* .btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.btn--blue {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+}
+.btn--blue:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.5);
+}
+.btn--primary {
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+}
+.btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.5);
+}
+
+/* 録音ボタン */
+/* .btn--record {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+} */
+/* .btn--record:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.5);
+} */
+
+/* 録音中アニメーション */
+/* .recording {
+  animation: pulse 1s infinite;
+  background: linear-gradient(135deg, #dc2626, #991b1b) !important;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+  50% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+} */ */
+
+/* 停止ボタンアニメーション */
+/* .stop-btn {
+  background: linear-gradient(135deg, #f97316, #c2410c);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.4);
+  animation: shake 0.4s infinite alternate;
+}
+@keyframes shake {
+  from { transform: translateX(-2px); }
+  to { transform: translateX(2px); }
+} */
+
+/* 音声プレイヤー */
+/* .player {
+  margin-top: 8px;
+} */
+
+/* 補足 */
+/* .hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.text-block {
+  white-space: pre-wrap;
+  line-height: 1.9;
+  font-size: 16px;
+}
+
+/* ハイライト色 */
+/* mark {
+  background: #fff59d;
+  padding: 0 .15em;
+  border-radius: 2px;
+} */
+
+/* 全体 */
+/* .app-container {
+  padding: 20px;
+  background: linear-gradient(120deg, #f0f4ff, #ffffff);
+  font-family: 'Segoe UI', sans-serif;
+} */
+
+/* タイトル */
+/* .app-title {
+  font-size: 2.4rem;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(90deg, #4a90e2, #50c9c3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+} */
+
+/* 横並びコントロール行 */
+/* .control-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 25px;
+} */
+
+/* 光沢感ボックス */
+/* .glossy-box {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+} */
+
+/* 光沢感ボタン */
+/* .glossy-btn {
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(145deg, #4a90e2, #357ab7);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
   transition: all 0.3s ease;
 }
+.glossy-btn:hover {
+  background: linear-gradient(145deg, #50c9c3, #4a90e2);
+  transform: translateY(-2px);
+}
+.glossy-btn:active {
+  transform: scale(0.97);
+} */
 
-/* 青ボタン（送信） */
-.btn--blue {
-  color: #fff;
-  background-color: #0E62FE;
-  border-bottom: 4px solid #084bb5;
+/* 録音中用アニメーション */
+/* .recording {
+  background: linear-gradient(145deg, #ff4b5c, #ff6b81) !important;
+  animation: pulse 1.2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,75,92,0.6); }
+  70% { box-shadow: 0 0 0 15px rgba(255,75,92,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,75,92,0); }
+} */
+
+/* 音声プレイヤー */
+/* .player {
+  margin-top: 8px;
+}
+.hint {
+  font-size: 0.8rem;
+  color: #666;
+} */
+
+/* 結果セクション */
+/* .results-section {
+  margin-top: 20px;
+}
+.results-section section {
+  margin-bottom: 20px;
+}
+.text-block {
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+}
+ */
+/* src/App.css */
+.app-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 24px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans JP", Meiryo, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.btn--blue:hover {
-  background-color: #084bb5;
+header {
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  background: linear-gradient(90deg, #2563eb, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
 }
 
-/* 結果表示 */
-.result-box {
-  margin-top: 40px;
-  padding: 25px;
-  background: #ffffff;
-  border-left: 6px solid #007aff;
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+input[type="file"],
+input[type="text"] {
+  padding: 10px 12px;
   border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
-.result-box h3 {
-  margin-bottom: 12px;
-  font-size: 1rem;
+.player {
+  margin-top: 8px;
 }
 
-.result-box p {
-  margin: 0;
-  font-size: 1rem;
+.hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 光沢感ボタン */
+.btn--primary {
+  background: linear-gradient(145deg, #10b981, #0f9e73);
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+}
+
+/* 録音ボタン */
+.glossy-btn {
+  background: linear-gradient(145deg, #2563eb, #1e4fcc);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: all 0.2s;
+}
+.glossy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+}
+.glossy-btn.recording {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 8px 2px rgba(255,0,0,0.4); }
+  50% { box-shadow: 0 0 16px 4px rgba(255,0,0,0.6); }
+  100% { box-shadow: 0 0 8px 2px rgba(255,0,0,0.4); }
+}
+
+/* テキストブロック */
+.text-block {
   white-space: pre-wrap;
   line-height: 1.8;
+  font-size: 16px;
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
+}
+
+/* ハイライト色 */
+mark {
+  background: #fff59d;
+  padding: 0 .15em;
+  border-radius: 2px;
+}
+
+/* セクションカード風 */
+section {
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 24px 0;
 }

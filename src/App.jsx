@@ -1,141 +1,445 @@
-import React, { useState, useRef } from 'react'
-import './App.css'
+// // import React, { useMemo, useState } from 'react';
+// // import "./App.css";
+// // import SpeechRecorder from './components/SpeechRecorder';
+// // import { addJapanesePunctuation, highlightAllOccurrences, extractContexts } from './utils/text';
 
-function App() {
-  const [audioFile, setAudioFile] = useState(null)     // 音声ファイル（録音 or 選択）
-  const [keyword, setKeyword] = useState('')           // 検索キーワード
-  const [transcript, setTranscript] = useState('')     // 文字起こし結果
-  const [matchSnippet, setMatchSnippet] = useState('') // キーワード前後のテキスト
+// // export default function App() {
+// //   const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000');
 
-  const [isRecording, setIsRecording] = useState(false) // 録音中かどうか
-  const mediaRecorderRef = useRef(null)                 // MediaRecorder保持用
-  const recordedChunks = useRef([])                     // 録音データ一時保存用
+// //   // 入力
+// //   const [keyword, setKeyword] = useState('');
+// //   const [audioFile, setAudioFile] = useState(null);
+// //   const [pickedUrl, setPickedUrl] = useState(null); // 選択ファイルの再生用
 
-  // ファイル選択時
-  const handleFileChange = (e) => {
-    setAudioFile(e.target.files[0])
-  }
+// //   // 出力
+// //   const [rawTranscript, setRawTranscript] = useState('');
+// //   const [punctuated, setPunctuated] = useState(''); // 句読点付き
+// //   const [highlightedHtml, setHighlightedHtml] = useState(''); // <mark>入りHTML
+// //   const [contexts, setContexts] = useState([]); // 前後±5文字
 
-  // キーワード入力時
-  const handleKeywordChange = (e) => {
-    setKeyword(e.target.value)
-  }
+// //   const handlePickFile = (e) => {
+// //     const f = e.target.files?.[0];
+// //     setAudioFile(f || null);
+// //     if (pickedUrl) URL.revokeObjectURL(pickedUrl);
+// //     if (f) setPickedUrl(URL.createObjectURL(f));
+// //   };
 
-  // 録音開始
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      const mediaRecorder = new MediaRecorder(stream)
-      recordedChunks.current = []
+// //   // SpeechRecorder から受け取る（録音WAV）
+// //   const handleRecorded = (file) => {
+// //     setAudioFile(file);
+// //     if (pickedUrl) URL.revokeObjectURL(pickedUrl);
+// //     setPickedUrl(URL.createObjectURL(file));
+// //   };
 
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.current.push(event.data)
-        }
-      }
+// //   const canSend = useMemo(() => !!audioFile, [audioFile]);
 
-      mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(recordedChunks.current, { type: 'audio/webm' })
-        const audioFile = new File([audioBlob], 'recorded_audio.webm', { type: 'audio/webm' })
-        setAudioFile(audioFile)
-      }
+// //   const send = async () => {
+// //     if (!audioFile) {
+// //       alert('音声ファイルを選択するか録音してください');
+// //       return;
+// //     }
+// //     const form = new FormData();
+// //     form.append('audio', audioFile);
+// //     form.append('keyword', keyword);
 
-      mediaRecorder.start()
-      mediaRecorderRef.current = mediaRecorder
-      setIsRecording(true)
-    } catch (err) {
-      console.error('録音エラー:', err)
-      alert('マイクの使用が許可されていません')
+// //     const res = await fetch(`${apiBase}/transcribe`, {
+// //       method: 'POST',
+// //       body: form
+// //     });
+// //     if (!res.ok) {
+// //       alert('変換に失敗しました');
+// //       return;
+// //     }
+// //     const data = await res.json();
+// //     // バックエンドは transcript（空白除去済み）を返すことを想定
+// //     const original = data.transcript || '';
+
+// //     setRawTranscript(original);
+
+// //     // 句読点を付与（フロント側）
+// //     const withPunc = addJapanesePunctuation(original);
+// //     setPunctuated(withPunc);
+
+// //     // ハイライト
+// //     setHighlightedHtml(highlightAllOccurrences(withPunc, keyword));
+
+// //     // 前後±5文字（句読点付与後のテキストで）
+// //     setContexts(extractContexts(withPunc, keyword, 5));
+// //   };
+
+// //   return (
+// //     <div className="app-container">
+// //       <header>音声認識デモ（録音→WAV→Watson→句読点→ハイライト）</header>
+
+// //       {/* 1) 録音（WAV） */}
+// //       <SpeechRecorder onFileReady={handleRecorded} />
+
+// //       {/* 2) ファイル選択 & 再生 */}
+// //       <div className="input-group">
+// //         <label>音声ファイルを選択</label>
+// //         <input type="file" accept="audio/*" onChange={handlePickFile} />
+// //         {pickedUrl && (
+// //           <div className="player">
+// //             <audio controls src={pickedUrl} />
+// //             <div className="hint">↑ 選択または録音した音声を再生できます</div>
+// //           </div>
+// //         )}
+// //       </div>
+
+// //       {/* 3) キーワード */}
+// //       <div className="input-group">
+// //         <label>キーワード</label>
+// //         <input
+// //           type="text"
+// //           value={keyword}
+// //           onChange={(e) => setKeyword(e.target.value)}
+// //           placeholder="例）音声"
+// //         />
+// //       </div>
+
+// //       {/* 4) 送信 */}
+// //       <button className="btn btn--primary" disabled={!canSend} onClick={send}>
+// //         送信（Watsonへ）
+// //       </button>
+
+// //       <hr />
+
+// //       {/* 結果表示 */}
+// //       <section>
+// //         <h3>全文（句読点付き）</h3>
+// //         <p className="text-block">{punctuated || '—'}</p>
+// //       </section>
+
+// //       <section>
+// //         <h3>キーワード・ハイライト（黄色マーカー）</h3>
+// //         <p
+// //           className="text-block"
+// //           dangerouslySetInnerHTML={{ __html: highlightedHtml || (punctuated || '—') }}
+// //         />
+// //       </section>
+
+// //       <section>
+// //         <h3>キーワード前後（±5文字）</h3>
+// //         {keyword ? (
+// //           contexts.length ? (
+// //             <ul>
+// //               {contexts.map((c, i) => (
+// //                 <li key={i}>{c}</li>
+// //               ))}
+// //             </ul>
+// //           ) : (
+// //             <p>該当なし</p>
+// //           )
+// //         ) : (
+// //           <p>（キーワード未入力）</p>
+// //         )}
+// //       </section>
+// //     </div>
+// //   );
+// // }
+// import React, { useMemo, useState } from 'react';
+// import "./App.css";
+// import SpeechRecorder from './components/SpeechRecorder';
+// import { addJapanesePunctuation, highlightAllOccurrences, extractContexts } from './utils/text';
+
+// export default function App() {
+//   const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000');
+
+//   // 入力
+//   const [keyword, setKeyword] = useState('');
+//   const [audioFile, setAudioFile] = useState(null);
+//   const [pickedUrl, setPickedUrl] = useState(null); // 選択ファイルの再生用
+
+//   // 出力
+//   const [rawTranscript, setRawTranscript] = useState('');
+//   const [punctuated, setPunctuated] = useState(''); // 句読点付き
+//   const [highlightedHtml, setHighlightedHtml] = useState(''); // <mark>入りHTML
+//   const [contexts, setContexts] = useState([]); // 前後±5文字
+//   const [speakerText, setSpeakerText] = useState({}); // 追加: 話者別テキスト
+
+//   const handlePickFile = (e) => {
+//     const f = e.target.files?.[0];
+//     setAudioFile(f || null);
+//     if (pickedUrl) URL.revokeObjectURL(pickedUrl);
+//     if (f) setPickedUrl(URL.createObjectURL(f));
+//   };
+
+//   const handleRecorded = (file) => {
+//     setAudioFile(file);
+//     if (pickedUrl) URL.revokeObjectURL(pickedUrl);
+//     setPickedUrl(URL.createObjectURL(file));
+//   };
+
+//   const canSend = useMemo(() => !!audioFile, [audioFile]);
+
+//   const send = async () => {
+//     if (!audioFile) {
+//       alert('音声ファイルを選択するか録音してください');
+//       return;
+//     }
+
+//     const form = new FormData();
+//     form.append('audio', audioFile);
+//     form.append('keyword', keyword);
+
+//     const res = await fetch(`${apiBase}/transcribe`, { // 修正: /transcribe に統一
+//       method: 'POST',
+//       body: form
+//     });
+//     if (!res.ok) {
+//       alert('変換に失敗しました');
+//       return;
+//     }
+
+//     const data = await res.json();
+
+//     // --- transcript を取得 ---
+//     const original = data.transcript || '';
+//     setRawTranscript(original);
+
+//     // --- 句読点を付与 ---
+//     const withPunc = addJapanesePunctuation(original);
+//     setPunctuated(withPunc);
+
+//     // --- ハイライト ---
+//     setHighlightedHtml(highlightAllOccurrences(withPunc, keyword));
+
+//     // --- 前後±5文字抽出 ---
+//     setContexts(extractContexts(withPunc, keyword, 5));
+
+//     // --- 追加: 話者ラベル処理 ---
+//     setSpeakerText(data.speakers || {});
+//   };
+
+//   return (
+//     <div className="app-container">
+//       <header>音声認識デモ</header>
+
+//       {/* 録音 */}
+//       <SpeechRecorder onFileReady={handleRecorded} />
+
+//       {/* ファイル選択 & 再生 */}
+//       <div className="input-group">
+//         <label>音声ファイルを選択</label>
+//         <input type="file" accept="audio/*" onChange={handlePickFile} />
+//         {pickedUrl && (
+//           <div className="player">
+//             <audio controls src={pickedUrl} />
+//             <div className="hint">↑ 選択または録音した音声を再生できます</div>
+//           </div>
+//         )}
+//       </div>
+
+//       {/* キーワード */}
+//       <div className="input-group">
+//         <label>キーワード</label>
+//         <input
+//           type="text"
+//           value={keyword}
+//           onChange={(e) => setKeyword(e.target.value)}
+//           placeholder="例）音声"
+//         />
+//       </div>
+
+//       {/* 送信 */}
+//       <button className="btn btn--primary" disabled={!canSend} onClick={send}>
+//         送信（Watsonへ）
+//       </button>
+
+//       <hr />
+
+//       {/* 結果表示 */}
+//       <section>
+//         <h3>全文</h3>
+//         <p className="text-block">{punctuated || '—'}</p>
+//       </section>
+
+//       <section>
+//         <h3>キーワード検出</h3>
+//         <p
+//           className="text-block"
+//           dangerouslySetInnerHTML={{ __html: highlightedHtml || (punctuated || '—') }}
+//         />
+//       </section>
+
+//       <section>
+//         <h3>キーワードの前後5文字を出力</h3>
+//         {keyword ? (
+//           contexts.length ? (
+//             <ul>
+//               {contexts.map((c, i) => (
+//                 <li key={i}>{c}</li>
+//               ))}
+//             </ul>
+//           ) : (
+//             <p>該当なし</p>
+//           )
+//         ) : (
+//           <p>（キーワード未入力）</p>
+//         )}
+//       </section>
+
+//       {/* 追加: 話者別テキスト表示 */}
+//       <section>
+//         <h3>話者別テキスト</h3>
+//         {Object.entries(speakerText).length ? (
+//           Object.entries(speakerText).map(([spk, text]) => (
+//             <div key={spk}>
+//               <strong>Speaker {spk}:</strong> {text}
+//             </div>
+//           ))
+//         ) : (
+//           <p>認識結果なし</p>
+//         )}
+//       </section>
+//     </div>
+//   );
+// }
+
+// App.jsx
+import React, { useMemo, useState } from 'react';
+import "./App.css";
+import SpeechRecorder from './components/SpeechRecorder';
+import { addJapanesePunctuation, highlightAllOccurrences, extractContexts } from './utils/text';
+
+export default function App() {
+  const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000');
+
+  // 入力
+  const [keyword, setKeyword] = useState('');
+  const [audioFile, setAudioFile] = useState(null);
+  const [pickedUrl, setPickedUrl] = useState(null);
+
+  // 出力
+  const [punctuated, setPunctuated] = useState('');
+  const [highlightedHtml, setHighlightedHtml] = useState('');
+  const [contexts, setContexts] = useState([]);
+  const [speakerText, setSpeakerText] = useState({});
+
+  const handlePickFile = (e) => {
+    const f = e.target.files?.[0];
+    setAudioFile(f || null);
+    if (pickedUrl) URL.revokeObjectURL(pickedUrl);
+    if (f) setPickedUrl(URL.createObjectURL(f));
+  };
+
+  const handleRecorded = (file) => {
+    setAudioFile(file);
+    if (pickedUrl) URL.revokeObjectURL(pickedUrl);
+    setPickedUrl(URL.createObjectURL(file));
+  };
+
+  const canSend = useMemo(() => !!audioFile, [audioFile]);
+
+  const send = async () => {
+    if (!audioFile) {
+      alert('音声ファイルを選択するか録音してください');
+      return;
     }
-  }
+    const form = new FormData();
+    form.append('audio', audioFile);
+    form.append('keyword', keyword);
 
-  // 録音停止
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop()
-      setIsRecording(false)
-    }
-  }
-
-  // 送信ボタン押下時
-  const handleSubmit = async () => {
-    if (!audioFile || !keyword) {
-      alert('音声ファイルまたは録音と、キーワードを入力してください')
-      return
+    const res = await fetch(`${apiBase}/transcribe`, {
+      method: 'POST',
+      body: form
+    });
+    if (!res.ok) {
+      alert('変換に失敗しました');
+      return;
     }
 
-    const formData = new FormData()
-    formData.append('audio', audioFile)
-    formData.append('keyword', keyword)
+    const data = await res.json();
+    const original = data.transcript || '';
+    const withPunc = addJapanesePunctuation(original);
+    setPunctuated(withPunc);
+    setHighlightedHtml(highlightAllOccurrences(withPunc, keyword));
+    setContexts(extractContexts(withPunc, keyword, 5));
+    setSpeakerText(data.speakers || {});
+  };
 
-    try {
-      const res = await fetch('http://localhost:3000/api/transcribe', {
-        method: 'POST',
-        body: formData,
-      })
+  return (
+    <div className="app-container">
+      {/* ===== タイトル ===== */}
+      <header className="app-title">🎙 音声認識</header>
+      {/* ===== 録音 & ファイル選択を横並び ===== */}
+      <div className="file-picker glossy-box">
+        <SpeechRecorder onFileReady={handleRecorded} />
 
-      const data = await res.json()
+        <div className="file-picker glossy-box">
+          <label>音声ファイルを選択</label>
+          <input type="file" accept="audio/*" onChange={handlePickFile} />
+          {pickedUrl && (
+            <div className="player">
+              <audio controls src={pickedUrl} />
+              <div className="hint">↑ 選択または録音した音声を再生できます</div>
+            </div>
+          )}
+        </div>
 
-      setTranscript(data.transcript || '')
+        <div className="keyword-input glossy-box">
+          <label>キーワード</label>
+          <input
+            type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            placeholder="例）音声"
+          />
+        </div>
 
-      const index = data.transcript.indexOf(keyword)
-      if (index !== -1) {
-        const start = Math.max(0, index - 5)
-        const end = index + keyword.length + 5
-        setMatchSnippet(data.transcript.substring(start, end))
-      } else {
-        setMatchSnippet('該当なし')
-      }
-    } catch (err) {
-      console.error('サーバーエラー:', err)
-      alert('変換に失敗しました')
-    }
-  }
+        <button
+          className="glossy-btn send-btn"
+          disabled={!canSend}
+          onClick={send}
+        >
+          📤 送信（Watsonへ）
+        </button>
+      </div>
 
-return (
-  <div className="app-container">
-    <header>音声認識アプリ</header>
+      {/* ===== 結果表示 ===== */}
+      <div className="results-section">
+        <section>
+          <h3>全文</h3>
+          <p className="text-block">{punctuated || '—'}</p>
+        </section>
 
-    {/* 音声ファイル選択 */}
-    <div className="input-group">
-      <label>音声ファイルを選択</label>
-      <input type="file" accept="audio/*" onChange={handleFileChange} />
+        <section>
+          <h3>キーワード検出</h3>
+          <p
+            className="text-block"
+            dangerouslySetInnerHTML={{
+              __html: highlightedHtml || (punctuated || '—')
+            }}
+          />
+        </section>
+
+        <section>
+          <h3>キーワードの前後5文字</h3>
+          {keyword ? (
+            contexts.length ? (
+              <ul>{contexts.map((c, i) => <li key={i}>{c}</li>)}</ul>
+            ) : (
+              <p>該当なし</p>
+            )
+          ) : (
+            <p>（キーワード未入力）</p>
+          )}
+        </section>
+
+        <section>
+          <h3>話者別テキスト</h3>
+          {Object.entries(speakerText).length ? (
+            Object.entries(speakerText).map(([spk, text]) => (
+              <div key={spk}>
+                <strong>Speaker {spk}:</strong> {text}
+              </div>
+            ))
+          ) : (
+            <p>認識結果なし</p>
+          )}
+        </section>
+      </div>
     </div>
-
-    {/* マイク録音 */}
-    <div className="input-group">
-      <label>マイクで録音</label>
-      {isRecording ? (
-        <button onClick={stopRecording} className="btn btn--blue">録音停止</button>
-      ) : (
-        <button onClick={startRecording} className="btn btn--blue">録音開始</button>
-      )}
-    </div>
-
-    {/* キーワード入力 */}
-    <div className="input-group">
-      <label>検索キーワード</label>
-      <input type="text" value={keyword} onChange={handleKeywordChange} />
-    </div>
-
-    {/* 送信ボタン */}
-    <button onClick={handleSubmit} className="btn btn--blue">送信</button>
-
-    <hr />
-
-    {/* 結果表示 */}
-    <div className="result-box">
-      <h3>全文（文字起こし）</h3>
-      <p>{transcript}</p>
-    </div>
-
-    <div className="result-box">
-      <h3>キーワード前後（±5文字）</h3>
-      <p>{matchSnippet}</p>
-    </div>
-  </div>
-)
-
+  );
 }
 
-export default App
