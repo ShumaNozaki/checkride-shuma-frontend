@@ -446,6 +446,14 @@
 //   );
 // }
 
+
+
+
+
+
+
+
+
 import React, { useMemo, useState } from 'react';
 import "./App.css";
 import SpeechRecorder from './components/SpeechRecorder';
@@ -455,7 +463,8 @@ import SpeechRecorder from './components/SpeechRecorder';
 
 export default function App() {
   // バックエンドAPIのベースURL
-  const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001');
+
+  const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000');
 
   // 入力状態
   const [keyword, setKeyword] = useState('');
@@ -487,41 +496,68 @@ export default function App() {
   const canSend = useMemo(() => !!audioFile, [audioFile]);
 
   // サーバーに音声送信＆文字起こし取得
-  const send = async () => {
-    if (!audioFile) {
-      alert('音声ファイルを選択するか録音してください');
-      return;
-    }
+  // const send = async () => {
+  //   if (!audioFile) {
+  //     alert('音声ファイルを選択するか録音してください');
+  //     return;
+  //   }
 
-    const form = new FormData();
-    form.append('audio', audioFile);
-    form.append('keyword', keyword);
+  //   const form = new FormData();
+  //   form.append('audio', audioFile);
+  //   form.append('keyword', keyword);
 
-    try {
-      const res = await fetch(`${apiBase}/api/speech/transcribe`, {
+  //   try {
+  //     const res = await fetch(`${apiBase}/api/speech/transcribe`, {
+  //       method: 'POST',
+  //       body: form
+  //     });
+
+  //     if (!res.ok) {
+  //       alert('変換に失敗しました');
+  //       return;
+  //     }
+
+  //     const data = await res.json();
+
+  //     // ここからフロント側での最小処理
+  //     // すでにサーバーで smartFormatting + speakerLabels を有効化している想定
+  //     setPunctuated(data.formatted || data.transcript || '');
+  //     setHighlightedHtml(data.formatted || data.transcript || '');
+  //     setContexts([]); // 今回はキーワード前後抽出は使わない
+  //     setSpeakerText(data.speakers || {});
+
+  //   } catch (err) {
+  //     console.error('送信中にエラー', err);
+  //     alert('変換中にエラーが発生しました');
+  //   }
+  // };
+
+    const send = async () => {
+      if (!audioFile) {
+        alert('音声ファイルを選択するか録音してください');
+        return;
+      }
+      const form = new FormData();
+      form.append('audio', audioFile);
+      form.append('keyword', keyword);
+
+      const res = await fetch(`http://localhost:3000/transcribe`, {
         method: 'POST',
         body: form
       });
-
       if (!res.ok) {
         alert('変換に失敗しました');
         return;
       }
 
       const data = await res.json();
-
-      // ここからフロント側での最小処理
-      // すでにサーバーで smartFormatting + speakerLabels を有効化している想定
-      setPunctuated(data.formatted || data.transcript || '');
-      setHighlightedHtml(data.formatted || data.transcript || '');
-      setContexts([]); // 今回はキーワード前後抽出は使わない
+      const original = data.transcript || '';
+      const withPunc = addJapanesePunctuation(original);
+      setPunctuated(withPunc);
+      setHighlightedHtml(highlightAllOccurrences(withPunc, keyword));
+      setContexts(extractContexts(withPunc, keyword, 5));
       setSpeakerText(data.speakers || {});
-
-    } catch (err) {
-      console.error('送信中にエラー', err);
-      alert('変換中にエラーが発生しました');
-    }
-  };
+    };
 
   return (
     <div className="app-container">
