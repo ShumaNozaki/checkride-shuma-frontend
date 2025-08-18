@@ -1,31 +1,31 @@
-# --- ビルドステージ ---
-FROM docker.io/library/node:22 AS build
+# # --- ビルドステージ ---
+# FROM docker.io/library/node:22 AS build
 
-WORKDIR /app
+# WORKDIR /app
 
-# package.json と lockファイルを先にコピー（キャッシュ効率化）
-COPY package*.json ./
+# # package.json と lockファイルを先にコピー（キャッシュ効率化）
+# COPY package*.json ./
 
-# lockファイルがない場合は install
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+# # lockファイルがない場合は install
+# RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
-# 残りのソースコードをコピー
-COPY . .
+# # 残りのソースコードをコピー
+# COPY . .
 
-# Vite のビルド
-RUN npm run build
+# # Vite のビルド
+# RUN npm run build
 
-# --- 本番ステージ ---
-FROM docker.io/library/nginx:alpine
+# # --- 本番ステージ ---
+# FROM docker.io/library/nginx:alpine
 
-# ビルド成果物をコピー
-COPY --from=build /app/dist /usr/share/nginx/html
+# # ビルド成果物をコピー
+# COPY --from=build /app/dist /usr/share/nginx/html
 
-# SPA対応の nginx 設定
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# # SPA対応の nginx 設定
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
 
 
 
@@ -81,3 +81,27 @@ CMD ["nginx", "-g", "daemon off;"]
 
 # # Nginxをフォアグラウンドで実行
 # CMD ["nginx", "-g", "daemon off;"]
+
+# Node.js の公式イメージを使用（バージョンは必要に応じて変更）
+FROM node:22
+
+# Instana を無効化
+ENV INSTANA_DISABLE=true
+
+# 作業ディレクトリを作成
+WORKDIR /app
+
+# package.json と package-lock.json をコピー
+COPY package*.json ./
+
+# 依存関係をインストール
+RUN npm install
+
+# アプリケーションのソースコードをコピー
+COPY . .
+
+# 必要に応じてポートを公開
+EXPOSE 3000
+
+# アプリケーションを起動
+CMD ["npm", "start"]
