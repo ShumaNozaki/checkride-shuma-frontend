@@ -46,7 +46,7 @@ export default function App() {
     form.append('keywords', keywords);
 
     try {
-      const res = await fetch(`${apiBase}/speech/transcribe`, {
+      const res = await fetch(`${apiBase}/api/speech/transcribe`, {
         method: 'POST',
         body: form
       });

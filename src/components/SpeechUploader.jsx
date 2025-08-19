@@ -20,7 +20,7 @@ export default function SpeechUploader() {
     try {
       // APIのベースURLは環境変数から取得、未設定時はローカルを使用
       const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
-      const response = await fetch(`${apiBase}/speech/transcribe`, {
+      const response = await fetch(`${apiBase}/api/speech/transcribe`, {
         method: 'POST',
         body: formData,
       });
