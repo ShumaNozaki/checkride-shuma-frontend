@@ -79,41 +79,44 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <header> 音声認識 DEMO</header>
       <div className="app-grid">
       <aside className="left">
-        <header>🎙 音声認識デモ</header>
+        
 
         <div className="file-picker glossy-box">
           <SpeechRecorder onFileReady={handleRecorded} />
 
           <div className="file-picker glossy-box">
-            <label>音声ファイルを選択</label>
+            <label>⇪ 音声ファイルをアップロード</label>
             <input type="file" accept="audio/*" onChange={handlePickFile} />
             {pickedUrl && (
               <div className="player">
                 <audio controls src={pickedUrl} />
-                <div className="hint">↑ ▶︎ 選択または録音した音声を再生できます</div>
+                <div className="hint">▶︎ 選択または録音した音声を再生できます</div>
               </div>
             )}
           </div>
 
+          <div className="file-picker glossy-box">
           <div className="keyword-input glossy-box">
-            <label>キーワード（カンマ区切り）</label>
-            <input
-              type="text"
-              value={keywords}
-              onChange={(e) => setKeywords(e.target.value)}
-              placeholder="例：音声,ディープラーニング"
-            />
-          </div>
+              <label>🔎 キーワードを検索 (カンマ区切り)</label>
+              <input
+                type="text"
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+                placeholder="例) 音声,ディープラーニング"
+              />
+            </div>
 
-          <button
-            className="glossy-btn send-btn"
-            disabled={!canSend}
-            onClick={send}
-          >
-            {loading ? '処理中…' : '✓ 送信'}
-          </button>
+            <button
+              className="glossy-btn send-btn"
+              disabled={!canSend}
+              onClick={send}
+            >
+              {loading ? '処理中…' : '✓ 送信'}
+            </button>
+          </div>
         </div>
         </aside>
 

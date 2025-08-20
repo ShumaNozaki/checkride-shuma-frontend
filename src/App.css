@@ -4,23 +4,37 @@ html, body, #root {
   width: 100%;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans JP", Meiryo, sans-serif;
 }
-
-/* レイアウト全体 */
 .app-shell {
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
   background: #f5f7fb;
-  padding: 24px 16px;
 }
 
+/* ヘッダー */
+header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 16px;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  background: linear-gradient(90deg, #2563eb, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+} 
+
 .app-grid {
-  width: min(1200px, 100%);
+  flex: 1;
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 400px 1fr;
   gap: 24px;
-  align-items: start;
+  padding: 24px 16px;
 }
 
 @media (max-width: 1024px) {
@@ -45,19 +59,7 @@ html, body, #root {
   flex-direction: column;
   align-items: stretch;
   gap: 16px;
-  margin-top: 88px;
-}
-
-/* ヘッダー */
-header {
-  font-size: 32px;
-  font-weight: 800;
-  text-align: center;
-  background: linear-gradient(90deg, #2563eb, #10b981);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 16px;
+  margin-top: 8px;
 }
 
 /* 入力系 */
@@ -79,6 +81,11 @@ label {
   padding: 8px;
   font-weight: 600;
   margin-bottom: 4px;
+
+  background: linear-gradient(90deg, #313131, #000000);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 input[type="file"],

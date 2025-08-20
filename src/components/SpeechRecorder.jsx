@@ -43,8 +43,8 @@ export default function SpeechRecorder({ onFileReady }) {
   };
 
   return (
-    <div className="input-group">
-      <label>録音する</label>
+    <div className="file-picker glossy-box">
+      <label>🎙️ 録音する</label>
       <button
         className={`glossy-btn ${recording ? 'recording' : ''}`} // 録音中はボタン見た目変更
         onClick={recording ? stopRecording : startRecording} // クリックで録音開始/停止
