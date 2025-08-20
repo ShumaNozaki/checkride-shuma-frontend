@@ -14,6 +14,7 @@ export default function App() {
   const [highlightedHtml, setHighlightedHtml] = useState(''); // キーワードハイライト
   const [contexts, setContexts] = useState([]);               // 前後5文字抽出結果
   const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState('ja'); 
 
   const handlePickFile = (e) => {
     const f = e.target.files?.[0];
@@ -44,6 +45,8 @@ export default function App() {
     const form = new FormData();
     form.append('audio', audioFile);
     form.append('keywords', keywords);
+    form.append('language', language);
+
 
     try {
       const res = await fetch(`${apiBase}/api/speech/transcribe`, {
@@ -82,9 +85,35 @@ export default function App() {
       <header> 音声認識 DEMO</header>
       <div className="app-grid">
       <aside className="left">
-        
 
         <div className="file-picker glossy-box">
+        <div className="language-picker glossy-box">
+          <label>🌏 言語を選択</label>
+          <div className="radio-group">
+            <label>
+              <input
+                type="radio"
+                name="language"
+                value="ja"
+                checked={language === 'ja'}
+                onChange={(e) => setLanguage(e.target.value)}
+              />
+              日本語
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="language"
+                value="en"
+                checked={language === 'en'}
+                onChange={(e) => setLanguage(e.target.value)}
+              />
+              英語
+            </label>
+          </div>
+        </div>
+
+        {/* <div className="file-picker glossy-box"> */}
           <SpeechRecorder onFileReady={handleRecorded} />
 
           <div className="file-picker glossy-box">
@@ -98,7 +127,7 @@ export default function App() {
             )}
           </div>
 
-          <div className="file-picker glossy-box">
+          {/* <div className="file-picker glossy-box"> */}
           <div className="keyword-input glossy-box">
               <label>🔎 キーワードを検索 (カンマ区切り)</label>
               <input
@@ -117,7 +146,6 @@ export default function App() {
               {loading ? '処理中…' : '✓ 送信'}
             </button>
           </div>
-        </div>
         </aside>
 
         <main className="right">
