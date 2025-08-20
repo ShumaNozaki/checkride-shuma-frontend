@@ -1,31 +1,82 @@
-.app-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 24px;
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  width: 100%;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans JP", Meiryo, sans-serif;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
 }
 
+/* レイアウト全体 */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #f5f7fb;
+  padding: 24px 16px;
+}
+
+.app-grid {
+  width: min(1200px, 100%);
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .app-grid { grid-template-columns: 1fr; }
+  .left { position: static; }
+}
+
+/* 左ペイン */
+.left {
+  padding: 8px;
+  position: sticky;
+  top: 16px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 右ペイン */
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 88px;
+}
+
+/* ヘッダー */
 header {
   font-size: 32px;
   font-weight: 800;
   text-align: center;
   background: linear-gradient(90deg, #2563eb, #10b981);
   -webkit-background-clip: text;
-  background-clip: text;  
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 16px;
 }
 
-.input-group {
+/* 入力系 */
+.input-group,
+.glossy-box {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+}
+
+.glossy-box {
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 label {
+  padding: 8px;
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -48,14 +99,16 @@ input[type="text"] {
   margin-top: 4px;
 }
 
-.btn {
+/* ボタン */
+.btn,
+.glossy-btn {
   padding: 12px 20px;
   font-size: 16px;
+  font-weight: 600;
   border-radius: 12px;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
-  font-weight: 600;
 }
 
 .btn:disabled {
@@ -63,7 +116,6 @@ input[type="text"] {
   cursor: not-allowed;
 }
 
-/* 光沢感ボタン */
 .btn--primary {
   background: linear-gradient(145deg, #10b981, #0f9e73);
   color: #fff;
@@ -74,17 +126,10 @@ input[type="text"] {
   box-shadow: 0 6px 10px rgba(0,0,0,0.25);
 }
 
-/* 録音ボタン */
 .glossy-btn {
   background: linear-gradient(145deg, #2563eb, #1e4fcc);
   color: #fff;
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  transition: all 0.2s;
 }
 .glossy-btn:hover {
   transform: translateY(-2px);
@@ -100,8 +145,9 @@ input[type="text"] {
   100% { box-shadow: 0 0 8px 2px rgba(255,0,0,0.4); }
 }
 
-/* テキストブロック */
+/* 出力テキスト */
 .text-block {
+  min-height: 100px;
   white-space: pre-wrap;
   line-height: 1.8;
   font-size: 16px;
@@ -111,21 +157,25 @@ input[type="text"] {
   box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
 }
 
-/* ハイライト色 */
-mark {
-  background: #fff59d;
-  padding: 0 .15em;
-  border-radius: 2px;
-}
-
-/* セクションカード風 */
+/* セクション */
 section {
+  height: auto;
+  flex: none;
+  overflow-wrap: break-word;
   background: #fff;
   padding: 16px 20px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* ハイライト */
+mark {
+  background: #fff59d;
+  padding: 0 .15em;
+  border-radius: 2px;
+}
+
+/* 区切り線 */
 hr {
   border: none;
   height: 1px;

@@ -78,71 +78,75 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
-      <header className="app-title">🎙 音声認識デモ</header>
-
-      <div className="file-picker glossy-box">
-        <SpeechRecorder onFileReady={handleRecorded} />
+    <div className="app-shell">
+      <div className="app-grid">
+      <aside className="left">
+        <header>🎙 音声認識デモ</header>
 
         <div className="file-picker glossy-box">
-          <label>音声ファイルを選択</label>
-          <input type="file" accept="audio/*" onChange={handlePickFile} />
-          {pickedUrl && (
-            <div className="player">
-              <audio controls src={pickedUrl} />
-              <div className="hint">↑ 選択または録音した音声を再生できます</div>
-            </div>
-          )}
-        </div>
+          <SpeechRecorder onFileReady={handleRecorded} />
 
-        <div className="keyword-input glossy-box">
-          <label>キーワード（カンマ区切り）</label>
-          <input
-            type="text"
-            value={keywords}
-            onChange={(e) => setKeywords(e.target.value)}
-            placeholder="例：音声,ディープラーニング"
-          />
-        </div>
-
-        <button
-          className="glossy-btn send-btn"
-          disabled={!canSend}
-          onClick={send}
-        >
-          {loading ? '処理中…' : '📤 送信'}
-        </button>
-      </div>
-
-      <div className="results-section">
-        <section>
-          <h3>全文</h3>
-          <p className="text-block">{transcript || '—'}</p>
-        </section>
-
-        <section>
-          <h3>キーワードハイライト</h3>
-          <p
-            className="text-block"
-            dangerouslySetInnerHTML={{ __html: highlightedHtml || (transcript || '—') }}
-          />
-        </section>
-
-        <section>
-          <h3>キーワード前後5文字</h3>
-          {contexts.length ? (
-            contexts.map((c, i) => (
-              <div key={i}>
-                <strong>{c.keyword}</strong>
-                （{c.position}文字目 / {c.wordPosition}単語目）: {c.snippet}
+          <div className="file-picker glossy-box">
+            <label>音声ファイルを選択</label>
+            <input type="file" accept="audio/*" onChange={handlePickFile} />
+            {pickedUrl && (
+              <div className="player">
+                <audio controls src={pickedUrl} />
+                <div className="hint">↑ ▶︎ 選択または録音した音声を再生できます</div>
               </div>
-            ))
-          ) : (
-            <p>—</p>
-          )}
-        </section>
+            )}
+          </div>
+
+          <div className="keyword-input glossy-box">
+            <label>キーワード（カンマ区切り）</label>
+            <input
+              type="text"
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
+              placeholder="例：音声,ディープラーニング"
+            />
+          </div>
+
+          <button
+            className="glossy-btn send-btn"
+            disabled={!canSend}
+            onClick={send}
+          >
+            {loading ? '処理中…' : '✓ 送信'}
+          </button>
+        </div>
+        </aside>
+
+        <main className="right">
+          <section>
+            <h3>全文</h3>
+            <p className="text-block">{transcript || '—'}</p>
+          </section>
+
+          <section>
+            <h3>キーワードハイライト</h3>
+            <p
+              className="text-block"
+              dangerouslySetInnerHTML={{ __html: highlightedHtml || (transcript || '—') }}
+            />
+          </section>
+
+          <section>
+            <h3>キーワード前後5文字</h3>
+            {contexts.length ? (
+              contexts.map((c, i) => (
+                <div key={i}>
+                  <strong>{c.keyword}</strong>
+                  （{c.position}文字目 / {c.wordPosition}単語目）: {c.snippet}
+                </div>
+              ))
+            ) : (
+              <p>—</p>
+            )}
+          </section>
 
 
+        </main>
       </div>
     </div>
   );
