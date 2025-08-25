@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import "./App.css";
 import SpeechRecorder from './components/SpeechRecorder';
-import { highlightMultipleKeywords, extractContextsIgnoreSpaces } from './utils/text';
+import { highlight} from './utils/text';
 
 export default function App() {
   const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000');
@@ -12,10 +12,11 @@ export default function App() {
 
   const [transcript, setTranscript] = useState('');           // 文字起こし全文
   const [highlightedHtml, setHighlightedHtml] = useState(''); // キーワードハイライト
-  const [contexts, setContexts] = useState([]);               // 前後5文字抽出結果
+  const [contexts, setContexts] = useState([]); // 前後5文字や位置情報用
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState('ja'); 
 
+  // ファイル選択時の処理
   const handlePickFile = (e) => {
     const f = e.target.files?.[0];
     setAudioFile(f || null);
@@ -23,6 +24,7 @@ export default function App() {
     if (f) setPickedUrl(URL.createObjectURL(f));
   };
 
+  // 録音完了時の処理
   const handleRecorded = (file) => {
     setAudioFile(file);
     if (pickedUrl) URL.revokeObjectURL(pickedUrl);
@@ -65,12 +67,10 @@ export default function App() {
 
       setTranscript(original);
 
-      // 複数キーワード配列に分割
-      const kws = keywords.split(',').map(k => k.trim()).filter(Boolean);
-
-      // ハイライト＆前後5文字抽出
-      setHighlightedHtml(highlightMultipleKeywords(original, kws));
-      setContexts(extractContextsIgnoreSpaces(original, kws, 5));
+      // バックエンドで計算済みの matches を使用
+      const kws = data.matches.map(m => m.keyword);
+      setHighlightedHtml(highlight(original, kws));
+      setContexts(data.matches);
 
     } catch (err) {
       console.error('送信中にエラー', err);
@@ -167,8 +167,7 @@ export default function App() {
             {contexts.length ? (
               contexts.map((c, i) => (
                 <div key={i}>
-                  <strong>{c.keyword}</strong>
-                  （{c.position}文字目 / {c.wordPosition}単語目）: {c.snippet}
+                  <strong>{c.keyword}</strong>（{c.startIndex}文字目 / {c.wordPosition}単語目）: {c.snippet}
                 </div>
               ))
             ) : (
