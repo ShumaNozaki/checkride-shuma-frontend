@@ -1,4 +1,4 @@
-html, body, #root {
+html, body {
   height: 100%;
   margin: 0;
   width: 100%;
@@ -63,7 +63,7 @@ header {
 }
 
 /* 入力系 */
-.input-group,
+/* .input-group, */
 .glossy-box {
   display: flex;
   flex-direction: column;
@@ -80,7 +80,7 @@ header {
 label {
   padding: 8px;
   font-weight: 600;
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
 
   background: linear-gradient(150deg, #575757, #000000);
   -webkit-background-clip: text;
@@ -96,9 +96,9 @@ input[type="text"] {
   font-size: 14px;
 }
 
-.player {
+/* .player {
   margin-top: 8px;
-}
+} */
 
 .hint {
   font-size: 12px;
@@ -123,7 +123,7 @@ input[type="text"] {
   cursor: not-allowed;
 }
 
-.btn--primary {
+/* .btn--primary {
   background: linear-gradient(145deg, #10b981, #0f9e73);
   color: #fff;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
@@ -131,7 +131,7 @@ input[type="text"] {
 .btn--primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 10px rgba(0,0,0,0.25);
-}
+} */
 
 .glossy-btn {
   background: linear-gradient(145deg, #2563eb, #1e4fcc);
@@ -166,8 +166,8 @@ input[type="text"] {
 
 /* セクション */
 section {
-  height: auto;
-  flex: none;
+  /* height: auto;
+  flex: none; */
   overflow-wrap: break-word;
   background: #fff;
   padding: 16px 20px;

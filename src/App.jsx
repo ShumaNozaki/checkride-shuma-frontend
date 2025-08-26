@@ -4,17 +4,17 @@ import SpeechRecorder from './components/SpeechRecorder';
 import { highlight} from './utils/text';
 
 export default function App() {
-  const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000');
+  const [apiBase] = useState(import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'); // バックエンドのURLを.envから取得
 
-  const [keywords, setKeywords] = useState('');
-  const [audioFile, setAudioFile] = useState(null);
-  const [pickedUrl, setPickedUrl] = useState(null);
-
+  // 入力値の状態
+  const [keywords, setKeywords] = useState(''); // ユーザーが入力した検索キーワードを保存、初期値は' '
+  const [audioFile, setAudioFile] = useState(null); // ユーザーがアップロードしたファイルを保存
+  const [pickedUrl, setPickedUrl] = useState(null); // 音声ファイルをブラウザで再生できるようにしたURLを保持
   const [transcript, setTranscript] = useState('');           // 文字起こし全文
   const [highlightedHtml, setHighlightedHtml] = useState(''); // キーワードハイライト
   const [contexts, setContexts] = useState([]); // 前後5文字や位置情報用
-  const [loading, setLoading] = useState(false);
-  const [language, setLanguage] = useState('ja'); 
+  const [loading, setLoading] = useState(false); // 処理が進行中かを管理
+  const [language, setLanguage] = useState('ja');  // 音声認識の対象言語を保存
 
   // ファイル選択時の処理
   const handlePickFile = (e) => {
@@ -31,8 +31,10 @@ export default function App() {
     setPickedUrl(URL.createObjectURL(file));
   };
 
+  // ReactのuseMemoフックを使用してファイルが送信できるかどうかを計算（音声ファイルがありローディングが終われば送信）
   const canSend = useMemo(() => !!audioFile && !loading, [audioFile, loading]);
 
+  // 文字起こしAPIを送信
   const send = async () => {
     if (!audioFile) {
       alert('音声ファイルを選択するか録音してください');
@@ -67,7 +69,8 @@ export default function App() {
 
       setTranscript(original);
 
-      // バックエンドで計算済みの matches を使用
+      // バックエンドで計算済みのmatchesを使用し前後5文字抽出
+      // ハイライト
       const kws = data.matches.map(m => m.keyword);
       setHighlightedHtml(highlight(original, kws));
       setContexts(data.matches);
@@ -80,6 +83,7 @@ export default function App() {
     }
   };
 
+  // UI
   return (
     <div className="app-shell">
       <header> 音声認識 DEMO</header>
@@ -96,24 +100,21 @@ export default function App() {
                 name="language"
                 value="ja"
                 checked={language === 'ja'}
-                onChange={(e) => setLanguage(e.target.value)}
-              />
+                onChange={(e) => setLanguage(e.target.value)}/>
               日本語
             </label>
+
             <label>
               <input
                 type="radio"
                 name="language"
                 value="en"
                 checked={language === 'en'}
-                onChange={(e) => setLanguage(e.target.value)}
-              />
+                onChange={(e) => setLanguage(e.target.value)}/>
               英語
             </label>
           </div>
         </div>
-
-        {/* <div className="file-picker glossy-box"> */}
           <SpeechRecorder onFileReady={handleRecorded} />
 
           <div className="file-picker glossy-box">
@@ -127,7 +128,6 @@ export default function App() {
             )}
           </div>
 
-          {/* <div className="file-picker glossy-box"> */}
           <div className="keyword-input glossy-box">
               <label>🔎 キーワードを検索 (カンマ区切り)</label>
               <input
@@ -174,8 +174,6 @@ export default function App() {
               <p>—</p>
             )}
           </section>
-
-
         </main>
       </div>
     </div>

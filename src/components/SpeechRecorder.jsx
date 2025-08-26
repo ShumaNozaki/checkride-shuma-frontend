@@ -6,7 +6,7 @@ import React, { useState, useRef } from 'react';
  */
 export default function SpeechRecorder({ onFileReady }) {
   const [recording, setRecording] = useState(false); // 録音中かどうか
-  const [mediaRecorder, setMediaRecorder] = useState(null); // MediaRecorderインスタンス
+  const [mediaRecorder, setMediaRecorder] = useState(null); // MediaRecorderインスタンス（ブラウザで音声を録音するAPI）
   const audioChunksRef = useRef([]); // 録音データを一時的に保存する配列
 
   // 録音開始
