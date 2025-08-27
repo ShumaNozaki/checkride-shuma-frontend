@@ -144,7 +144,7 @@ export default function App() {
                 type="text"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
-                placeholder="例) 音声,ディープラーニング"
+                placeholder="例) 音声,認識"
               />
             </div>
 
