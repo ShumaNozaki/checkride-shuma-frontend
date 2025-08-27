@@ -1,9 +1,7 @@
 import React, { useState, useRef } from 'react';
 
-/**
- * SpeechRecorderコンポーネント
- * マイクから音声を録音し、録音が完了したら親コンポーネントにFileとして渡す
- */
+// SpeechRecorderコンポーネント
+//マイクから音声を録音し、録音が完了したら親コンポーネントにFileとして渡す
 export default function SpeechRecorder({ onFileReady }) {
   const [recording, setRecording] = useState(false); // 録音中かどうか
   const [mediaRecorder, setMediaRecorder] = useState(null); // MediaRecorderインスタンス（ブラウザで音声を録音するAPI）
@@ -44,7 +42,10 @@ export default function SpeechRecorder({ onFileReady }) {
 
   return (
     <div className="file-picker glossy-box">
-      <label>🎙️ 録音する</label>
+      <label>
+         <span className="emoji">🎙️</span>
+         <span className="label-text">録音する</span>
+      </label>
       <button
         className={`glossy-btn ${recording ? 'recording' : ''}`} // 録音中はボタン見た目変更
         onClick={recording ? stopRecording : startRecording} // クリックで録音開始/停止

@@ -74,6 +74,7 @@ export default function App() {
       const kws = data.matches.map(m => m.keyword);
       setHighlightedHtml(highlight(original, kws));
       setContexts(data.matches);
+      console.log("contexts >>>", data.matches);
 
     } catch (err) {
       console.error('送信中にエラー', err);
@@ -92,7 +93,10 @@ export default function App() {
 
         <div className="file-picker glossy-box">
         <div className="language-picker glossy-box">
-          <label>🌏 言語を選択</label>
+          <label>
+             <span className="emoji">🌏</span>
+             <span className="label-text">言語を選択</span>
+          </label>
           <div className="radio-group">
             <label>
               <input
@@ -103,7 +107,7 @@ export default function App() {
                 onChange={(e) => setLanguage(e.target.value)}/>
               日本語
             </label>
-
+            
             <label>
               <input
                 type="radio"
@@ -118,8 +122,11 @@ export default function App() {
           <SpeechRecorder onFileReady={handleRecorded} />
 
           <div className="file-picker glossy-box">
-            <label>⇪ 音声ファイルをアップロード</label>
-            <input type="file" accept="audio/*" onChange={handlePickFile} />
+            <label>
+               <span className="emoji">⇪</span>
+               <span className="label-text">音声ファイルをアップロード</span>
+            </label>
+            <input type="file" accept="audio/*" onChange={handlePickFile} data-testid="audio-input" />
             {pickedUrl && (
               <div className="player">
                 <audio controls src={pickedUrl} />
@@ -129,7 +136,10 @@ export default function App() {
           </div>
 
           <div className="keyword-input glossy-box">
-              <label>🔎 キーワードを検索 (カンマ区切り)</label>
+              <label>
+                 <span className="emoji">🔎</span>
+                 <span className="label-text">キーワードを検索 (カンマ区切り)</span>
+              </label>
               <input
                 type="text"
                 value={keywords}
@@ -163,17 +173,27 @@ export default function App() {
           </section>
 
           <section>
-            <h3>キーワード前後5文字</h3>
-            {contexts.length ? (
-              contexts.map((c, i) => (
+          <h3>キーワード前後5文字</h3>
+          {contexts.length ? (
+            contexts.map((c, i) => {
+              const highlighted = c.snippet.replace(
+                new RegExp(c.keyword, "g"),
+                `<mark>${c.keyword}</mark>`
+              );
+
+              return (
                 <div key={i}>
-                  <strong>{c.keyword}</strong>（{c.startIndex}文字目 / {c.wordPosition}単語目）: {c.snippet}
+                  <strong>{c.keyword}</strong>
+                  （{c.startIndex}文字目 / {c.wordPosition}単語目）:{" "}
+                  <span dangerouslySetInnerHTML={{ __html: highlighted }} />
                 </div>
-              ))
-            ) : (
-              <p>—</p>
-            )}
-          </section>
+              );
+            })
+          ) : (
+            <p>—</p>
+          )}
+        </section>
+
         </main>
       </div>
     </div>
