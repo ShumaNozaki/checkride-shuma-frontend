@@ -65,6 +65,7 @@ export default function App() {
       }
 
       const data = await res.json();
+      console.log("バックエンドからのレスポンス:", data);
       const original = data.transcript || '';
 
       setTranscript(original);
