@@ -12,7 +12,8 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column; /* 縦方向に配置（header + content） */
-  background: #0cda47;
+  background: #01fe44;
+  /* background: #ffffff; */
 }
 
 /* ヘッダー */
