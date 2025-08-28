@@ -11,7 +11,7 @@ html, body {
 .app-shell {
   min-height: 100vh;
   display: flex;
-  flex-direction: column; /* 縦方向に配置（header + content） */
+  flex-direction: column; 
   /* Check Rideで変更する */
   background: #01fe44;
   /* background: #fff; */
