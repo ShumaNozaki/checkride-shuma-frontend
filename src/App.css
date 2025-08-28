@@ -13,8 +13,8 @@ html, body {
   display: flex;
   flex-direction: column; /* 縦方向に配置（header + content） */
   /* Check Rideで変更する */
-  /* background: #01fe44; */
-  background: #fff;
+  background: #01fe44;
+  /* background: #fff; */
 }
 
 /* ヘッダー */
